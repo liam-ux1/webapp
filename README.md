@@ -1,4 +1,4 @@
-# Fund Management Web App
+# Wealth Management Web App
 
 This is a fund management web application with an admin dashboard for monitoring users and managing withdrawals.
 

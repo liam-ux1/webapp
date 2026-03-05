@@ -238,3 +238,343 @@
     <script src="js/dashboard.js"></script>
 </body>
 </html>
+    <title>Wealth Management Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <path d="M8 12L16 4L24 12V24C24 25.1046 23.1046 26 22 26H10C8.89543 26 8 25.1046 8 24V12Z" fill="currentColor" opacity="0.8"/>
+                    </svg>
+                    <span class="logo-text">Wealth</span>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#portfolio" class="nav-item" data-section="portfolio">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"></path>
+                    </svg>
+                    <span>Portfolio</span>
+                </a>
+                <a href="#transactions" class="nav-item" data-section="transactions">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                        <polyline points="19 12 12 19 5 12"></polyline>
+                    </svg>
+                    <span>Transactions</span>
+                </a>
+                <a href="#settings" class="nav-item" data-section="settings">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24M1 12h6m6 0h6M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"></path>
+                    </svg>
+                    <span>Settings</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">JD</div>
+                    <div class="user-info">
+                        <div class="user-name">John Doe</div>
+                        <div class="user-email">john@example.com</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <h1 id="sectionTitle">Dashboard</h1>
+                </div>
+                <div class="header-right">
+                    <div class="search-bar">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <input type="text" placeholder="Search...">
+                    </div>
+                    <button class="notification-btn" id="notificationBtn">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="notification-badge">3</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="section active">
+                <!-- Summary Cards -->
+                <section class="summary-cards">
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <h3>Total Portfolio Value</h3>
+                            <span class="card-icon portfolio">💼</span>
+                        </div>
+                        <div class="card-value">$487,425.50</div>
+                        <div class="card-change positive">
+                            <span class="change-badge">+12.4%</span>
+                            <span class="change-text">vs last 30 days</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <h3>Total Deposits</h3>
+                            <span class="card-icon deposits">📥</span>
+                        </div>
+                        <div class="card-value">$125,000.00</div>
+                        <div class="card-change">
+                            <span class="change-text">Year to date</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <h3>Total Withdrawals</h3>
+                            <span class="card-icon withdrawals">📤</span>
+                        </div>
+                        <div class="card-value">$25,000.00</div>
+                        <div class="card-change">
+                            <span class="change-text">Year to date</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <div class="card-header">
+                            <h3>Net Gain/Loss</h3>
+                            <span class="card-icon gains">📈</span>
+                        </div>
+                        <div class="card-value positive">+$52,425.50</div>
+                        <div class="card-change positive">
+                            <span class="change-badge">+9.7%</span>
+                            <span class="change-text">Return on investment</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Portfolio Performance Chart -->
+                <section class="performance-section">
+                    <div class="section-header">
+                        <h2>Portfolio Performance</h2>
+                        <div class="time-filter">
+                            <button class="filter-btn active" data-period="1W">1W</button>
+                            <button class="filter-btn" data-period="1M">1M</button>
+                            <button class="filter-btn" data-period="3M">3M</button>
+                            <button class="filter-btn" data-period="1Y">1Y</button>
+                            <button class="filter-btn" data-period="ALL">ALL</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </section>
+
+                <div class="dashboard-grid">
+                    <!-- Fund Allocation -->
+                    <section class="allocation-section">
+                        <div class="section-header">
+                            <h2>Fund Allocation</h2>
+                        </div>
+                        <div class="allocation-container">
+                            <div class="chart-wrapper">
+                                <canvas id="allocationChart"></canvas>
+                            </div>
+                            <div class="allocation-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #3B82F6;"></div>
+                                    <div class="legend-content">
+                                        <div class="legend-label">Stocks</div>
+                                        <div class="legend-value">$250,000 (51%)</div>
+                                    </div>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #10B981;"></div>
+                                    <div class="legend-content">
+                                        <div class="legend-label">Commodities</div>
+                                        <div class="legend-value">$150,000 (31%)</div>
+                                    </div>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #F59E0B;"></div>
+                                    <div class="legend-content">
+                                        <div class="legend-label">Bonds</div>
+                                        <div class="legend-value">$75,000 (15%)</div>
+                                    </div>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color" style="background-color: #8B5CF6;"></div>
+                                    <div class="legend-content">
+                                        <div class="legend-label">Cash</div>
+                                        <div class="legend-value">$12,425.50 (3%)</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Alerts & Notifications -->
+                    <section class="alerts-section">
+                        <div class="section-header">
+                            <h2>Alerts & Notifications</h2>
+                        </div>
+                        <div class="alerts-list">
+                            <div class="alert alert-success">
+                                <div class="alert-icon">✓</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Deposit Confirmed</div>
+                                    <div class="alert-message">$10,000 deposit completed</div>
+                                    <div class="alert-time">2 hours ago</div>
+                                </div>
+                            </div>
+                            <div class="alert alert-info">
+                                <div class="alert-icon">ℹ</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Portfolio Milestone</div>
+                                    <div class="alert-message">Your portfolio value reached $480K</div>
+                                    <div class="alert-time">1 day ago</div>
+                                </div>
+                            </div>
+                            <div class="alert alert-warning">
+                                <div class="alert-icon">⚠</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Market Volatility</div>
+                                    <div class="alert-message">Tech stocks down 3.2% today</div>
+                                    <div class="alert-time">3 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Asset Breakdown Table -->
+                <section class="assets-section">
+                    <div class="section-header">
+                        <h2>Asset Breakdown</h2>
+                        <div class="table-controls">
+                            <input type="text" class="filter-input" placeholder="Search assets..." id="assetSearch">
+                            <select class="filter-select" id="assetTypeFilter">
+                                <option value="">All Types</option>
+                                <option value="stock">Stock</option>
+                                <option value="commodity">Commodity</option>
+                                <option value="bond">Bond</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="assets-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" data-column="name">Asset Name <span class="sort-icon">⇅</span></th>
+                                    <th class="sortable" data-column="type">Type <span class="sort-icon">⇅</span></th>
+                                    <th class="sortable" data-column="invested">Invested <span class="sort-icon">⇅</span></th>
+                                    <th class="sortable" data-column="current">Current Value <span class="sort-icon">⇅</span></th>
+                                    <th class="sortable" data-column="percentage">Portfolio % <span class="sort-icon">⇅</span></th>
+                                    <th class="sortable" data-column="gain">Profit/Loss <span class="sort-icon">⇅</span></th>
+                                </tr>
+                            </thead>
+                            <tbody id="assetsTableBody">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Recent Transactions -->
+                <section class="transactions-section">
+                    <div class="section-header">
+                        <h2>Recent Transactions</h2>
+                        <div class="table-controls">
+                            <input type="text" class="filter-input" placeholder="Search transactions..." id="transactionSearch">
+                            <select class="filter-select" id="transactionTypeFilter">
+                                <option value="">All Types</option>
+                                <option value="deposit">Deposit</option>
+                                <option value="withdrawal">Withdrawal</option>
+                                <option value="buy">Buy</option>
+                                <option value="sell">Sell</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="transactions-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Asset</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transactionsTableBody">
+                                <!-- Populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button class="pagination-btn" id="prevPage">← Previous</button>
+                        <span class="pagination-info"><span id="currentPage">1</span> of <span id="totalPages">3</span></span>
+                        <button class="pagination-btn" id="nextPage">Next →</button>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Portfolio Section -->
+            <div id="portfolio-section" class="section">
+                <h2>Portfolio Analysis</h2>
+                <p style="padding: 20px; text-align: center; color: var(--text-secondary);">Portfolio analysis and detailed breakdown coming soon.</p>
+            </div>
+
+            <!-- Transactions Section -->
+            <div id="transactions-section" class="section">
+                <h2>Transaction History</h2>
+                <p style="padding: 20px; text-align: center; color: var(--text-secondary);">Detailed transaction history and filtering coming soon.</p>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settings-section" class="section">
+                <h2>Settings</h2>
+                <p style="padding: 20px; text-align: center; color: var(--text-secondary);">Account settings and preferences coming soon.</p>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
