@@ -1,0 +1,111 @@
+/* Custom Styles for Admin Dashboard */
+
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --sidebar-bg: #343a40;
+    --card-bg: #ffffff;
+    --border-color: #dee2e6;
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #ffffff;
+    --sidebar-bg: #1e1e1e;
+    --card-bg: #1e1e1e;
+    --border-color: #333333;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    width: 250px;
+    background-color: var(--sidebar-bg) !important;
+}
+
+#page-content-wrapper {
+    width: 100%;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.card-header {
+    background-color: var(--card-bg);
+    border-bottom-color: var(--border-color);
+}
+
+.table {
+    color: var(--text-color);
+}
+
+.table th {
+    background-color: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+.table td {
+    border-color: var(--border-color);
+}
+
+.btn-outline-secondary {
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.status-pending {
+    color: #ffc107;
+}
+
+.status-approved {
+    color: #28a745;
+}
+
+.status-declined {
+    color: #dc3545;
+}
+
+.status-active {
+    color: #28a745;
+}
+
+.status-inactive {
+    color: #6c757d;
+}
+
+.status-confirmed {
+    color: #28a745;
+}
+
+.status-pending-deposit {
+    color: #ffc107;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #sidebar-wrapper {
+        width: 0;
+        position: absolute;
+        z-index: 1000;
+    }
+
+    #sidebar-wrapper.show {
+        width: 250px;
+    }
+
+    #page-content-wrapper {
+        margin-left: 0;
+    }
+}

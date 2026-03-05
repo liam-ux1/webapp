@@ -3,7 +3,242 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fund Management Dashboard</title>
+    <title>Admin Dashboard - Fund Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Auth Modal (Commented Out for Testing) -->
+    <!--
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="authModalLabel">Admin Access</h5>
+                </div>
+                <div class="modal-body">
+                    <form id="authForm">
+                        <div class="mb-3">
+                            <label for="adminPassword" class="form-label">Admin Password</label>
+                            <input type="password" class="form-control" id="adminPassword" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    -->
+
+    <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-dark text-white" id="sidebar-wrapper">
+            <div class="sidebar-heading text-center py-4">
+                <h3>Admin Console</h3>
+            </div>
+            <div class="list-group list-group-flush">
+                <a href="#overview" class="list-group-item list-group-item-action bg-dark text-white active">
+                    <i class="fas fa-tachometer-alt me-2"></i>Overview
+                </a>
+                <a href="#clients" class="list-group-item list-group-item-action bg-dark text-white">
+                    <i class="fas fa-users me-2"></i>Clients
+                </a>
+                <a href="#deposits" class="list-group-item list-group-item-action bg-dark text-white">
+                    <i class="fas fa-plus-circle me-2"></i>Deposits
+                </a>
+                <a href="#withdrawals" class="list-group-item list-group-item-action bg-dark text-white">
+                    <i class="fas fa-minus-circle me-2"></i>Withdrawals
+                </a>
+                <a href="#portfolio" class="list-group-item list-group-item-action bg-dark text-white">
+                    <i class="fas fa-chart-line me-2"></i>Portfolio Activity
+                </a>
+                <a href="#settings" class="list-group-item list-group-item-action bg-dark text-white">
+                    <i class="fas fa-cog me-2"></i>Settings
+                </a>
+            </div>
+        </div>
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <button class="btn btn-primary" id="menu-toggle"><i class="fas fa-bars"></i></button>
+                <div class="ms-auto">
+                    <button class="btn btn-outline-secondary" id="theme-toggle"><i class="fas fa-moon"></i></button>
+                </div>
+            </nav>
+
+            <div class="container-fluid py-4">
+                <!-- Summary Cards -->
+                <div class="row mb-4" id="summary-cards">
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Clients</h5>
+                                <h2 id="total-clients">0</h2>
+                                <p class="text-success"><i class="fas fa-arrow-up"></i> +5%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Deposits</h5>
+                                <h2 id="total-deposits">$0</h2>
+                                <p class="text-success"><i class="fas fa-arrow-up"></i> +12%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Withdrawals</h5>
+                                <h2 id="total-withdrawals">$0</h2>
+                                <p class="text-warning"><i class="fas fa-arrow-down"></i> -3%</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card text-center">
+                            <div class="card-body">
+                                <h5 class="card-title">Total Funds Managed</h5>
+                                <h2 id="total-funds">$0</h2>
+                                <p class="text-success"><i class="fas fa-arrow-up"></i> +8%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Client Overview -->
+                <div class="card mb-4" id="clients-section">
+                    <div class="card-header">
+                        <h4>Client Overview</h4>
+                        <input type="text" id="client-search" class="form-control w-25" placeholder="Search clients...">
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped" id="clients-table">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Deposited</th>
+                                    <th>Withdrawn</th>
+                                    <th>Balance</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clients-tbody">
+                                <!-- Client rows will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Withdrawal Requests -->
+                <div class="card mb-4" id="withdrawals-section">
+                    <div class="card-header">
+                        <h4>Withdrawal Requests</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped" id="withdrawals-table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Request Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="withdrawals-tbody">
+                                <!-- Withdrawal rows will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Deposit Activity -->
+                <div class="card mb-4" id="deposits-section">
+                    <div class="card-header">
+                        <h4>Deposit Activity</h4>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped" id="deposits-table">
+                            <thead>
+                                <tr>
+                                    <th>Transaction ID</th>
+                                    <th>User</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="deposits-tbody">
+                                <!-- Deposit rows will be populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Portfolio Activity -->
+                <div class="card mb-4" id="portfolio-section">
+                    <div class="card-header">
+                        <h4>Portfolio Activity</h4>
+                    </div>
+                    <div class="card-body">
+                        <p>Portfolio analytics and activity charts will be displayed here.</p>
+                        <!-- Placeholder for charts -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <canvas id="portfolioChart" width="400" height="200"></canvas>
+                            </div>
+                            <div class="col-md-6">
+                                <canvas id="activityChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings -->
+                <div class="card mb-4" id="settings-section">
+                    <div class="card-header">
+                        <h4>Settings</h4>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="mb-3">
+                                <label for="adminEmail" class="form-label">Admin Email</label>
+                                <input type="email" class="form-control" id="adminEmail" value="admin@fundmanagement.com">
+                            </div>
+                            <div class="mb-3">
+                                <label for="notificationSettings" class="form-label">Notification Settings</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="emailNotifications" checked>
+                                    <label class="form-check-label" for="emailNotifications">
+                                        Email notifications for withdrawals
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="smsNotifications">
+                                    <label class="form-check-label" for="smsNotifications">
+                                        SMS notifications for large deposits
+                                    </label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
+    <title>Wealth Management Dashboard</title>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js"></script>
 </head>
